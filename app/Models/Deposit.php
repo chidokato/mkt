@@ -52,4 +52,33 @@ class Deposit extends Model
     {
         return $this->hasMany(DepositHistory::class);
     }
+
+    public function getProofImageUrlAttribute(): ?string
+    {
+        $raw = trim((string) $this->proof_image);
+        if ($raw === '') {
+            return null;
+        }
+
+        if (preg_match('#^https?://#i', $raw)) {
+            return $raw;
+        }
+
+        $path = ltrim(str_replace('\\', '/', $raw), '/');
+        $relative = preg_replace('#^(uploads|storage)/#', '', $path);
+
+        if (is_file(public_path('uploads/' . $relative))) {
+            return asset('uploads/' . $relative);
+        }
+
+        if (is_file(public_path('storage/' . $relative))) {
+            return asset('storage/' . $relative);
+        }
+
+        if (is_file(public_path($path))) {
+            return asset($path);
+        }
+
+        return asset('uploads/' . $relative);
+    }
 }

@@ -142,7 +142,7 @@
                             @if($d->proof_image)
                                 <button type="button"
                                         class="btn btn-sm btn-outline-primary btn-proof-modal"
-                                        data-src="{{ asset('uploads/'.$d->proof_image) }}">
+                                        data-src="{{ $d->proof_image_url }}">
                                     Images
                                 </button>
                             @else
@@ -301,7 +301,10 @@
       </div>
 
       <div class="modal-body text-center">
-        <img style="    height: 75vh;" id="proofModalImg" src="" alt="Proof" class="img-fluid rounded">
+        <img style="max-height: 75vh;" id="proofModalImg" src="" alt="Proof" class="img-fluid rounded">
+        <div id="proofModalError" class="alert alert-warning d-none mb-0">
+          Không tải được ảnh minh chứng (file không tồn tại hoặc đường dẫn bị lỗi).
+        </div>
       </div>
     </div>
   </div>
@@ -414,16 +417,30 @@ $(function () {
 
 <script>
   $(document).on('click', '.btn-proof-modal', function () {
-    const src = $(this).data('src');
-    $('#proofModalImg').attr('src', src);
+    const src = $(this).attr('data-src') || '';
+    const $img = $('#proofModalImg');
+    const $err = $('#proofModalError');
 
-    const modal = new bootstrap.Modal(document.getElementById('proofModal'));
-    modal.show();
+    $err.addClass('d-none');
+    $img.removeClass('d-none').off('error.proof').on('error.proof', function () {
+      $img.addClass('d-none');
+      $err.removeClass('d-none');
+    });
+
+    $img.attr('src', src);
+
+    const modalEl = document.getElementById('proofModal');
+    if (window.bootstrap && bootstrap.Modal) {
+      bootstrap.Modal.getOrCreateInstance(modalEl).show();
+    } else {
+      $('#proofModal').modal('show');
+    }
   });
 
   // Clear src khi đóng (đỡ giữ bộ nhớ)
   $('#proofModal').on('hidden.bs.modal', function () {
-    $('#proofModalImg').attr('src', '');
+    $('#proofModalImg').off('error.proof').attr('src', '').removeClass('d-none');
+    $('#proofModalError').addClass('d-none');
   });
 </script>
 

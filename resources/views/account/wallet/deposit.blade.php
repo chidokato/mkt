@@ -135,7 +135,7 @@
                                             @if($d->proof_image)
                                                 <button type="button"
                                                     class="btn btn-sm btn-outline-primary btn-proof-modal"
-                                                    data-src="{{ asset('uploads/' . ltrim($d->proof_image, '/')) }}">
+                                                    data-src="{{ $d->proof_image_url }}">
                                                     Xem anh
                                                 </button>
                                             @else

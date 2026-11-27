@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\Department;
 use App\Helpers\TreeHelper;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
@@ -92,88 +93,109 @@ class DepositController extends Controller
 
         $mailPayload = null;
 
-        DB::transaction(function () use ($request, $deposit, &$mailPayload) {
+        try {
+            DB::transaction(function () use ($request, $deposit, &$mailPayload) {
 
-            $deposit = Deposit::where('id', $deposit->id)
-                ->lockForUpdate()
-                ->first();
+                $deposit = Deposit::where('id', $deposit->id)
+                    ->lockForUpdate()
+                    ->first();
 
-            $wallet = Wallet::firstOrCreate([
-                'user_id' => $deposit->user_id
-            ]);
+                $wallet = Wallet::firstOrCreate([
+                    'user_id' => $deposit->user_id
+                ]);
 
-            if ($request->action === 'approve') {
-                if ($deposit->status !== 'approved') {
-                    $wallet->increment('balance', $deposit->amount);
+                if ($request->action === 'approve') {
+                    if ($deposit->status !== 'approved') {
+                        $wallet->increment('balance', $deposit->amount);
 
-                    $wallet->transactions()->create([
-                        'amount' => $deposit->amount,
-                        'type' => 'deposit',
-                        'description' => 'Duyệt nạp tiền #' . $deposit->id,
-                    ]);
+                        $wallet->transactions()->create([
+                            'amount' => $deposit->amount,
+                            'type' => 'deposit',
+                            'description' => 'Duyệt nạp tiền #' . $deposit->id,
+                        ]);
 
-                    $deposit->update(['status' => 'approved']);
+                        $deposit->update(['status' => 'approved']);
+                    }
                 }
-            }
 
-            if ($request->action === 'reject') {
-                if ($deposit->status === 'approved') {
-                    if ($wallet->balance < $deposit->amount) {
-                        throw new \Exception('Không đủ số dư để rollback');
+                if ($request->action === 'reject') {
+                    if ($deposit->status === 'approved') {
+                        if ($wallet->balance < $deposit->amount) {
+                            throw new \RuntimeException('Không đủ số dư để rollback');
+                        }
+
+                        $wallet->decrement('balance', $deposit->amount);
+
+                        $wallet->transactions()->create([
+                            'amount' => -$deposit->amount,
+                            'type' => 'rollback',
+                            'description' => 'Rollback nạp tiền #' . $deposit->id,
+                        ]);
                     }
 
-                    $wallet->decrement('balance', $deposit->amount);
-
-                    $wallet->transactions()->create([
-                        'amount' => -$deposit->amount,
-                        'type' => 'rollback',
-                        'description' => 'Rollback nạp tiền #' . $deposit->id,
-                    ]);
+                    $deposit->update(['status' => 'rejected']);
                 }
 
-                $deposit->update(['status' => 'rejected']);
-            }
+                $deposit->histories()->create([
+                    'admin_id' => auth()->id(),
+                    'action' => $request->action,
+                    'note' => $request->note,
+                ]);
 
-            $deposit->histories()->create([
-                'admin_id' => auth()->id(),
+                $user = $deposit->user()->select('id', 'yourname', 'name', 'email')->first();
+                $email = trim((string) ($user->email ?? ''));
+                if ($user && $email !== '' && filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    $statusText = $request->action === 'approve' ? 'ĐƯỢC DUYỆT' : 'BỊ TỪ CHỐI';
+                    $subject = $request->action === 'approve'
+                        ? 'Thông báo: Lệnh nạp tiền đã được duyệt'
+                        : 'Thông báo: Lệnh nạp tiền đã bị từ chối';
+
+                    $noteText = trim((string) $request->note);
+                    $content = "Lệnh nạp tiền của bạn vừa được cập nhật.\n"
+                        . "Mã lệnh: " . ($deposit->transaction_code ?: ('#' . $deposit->id)) . "\n"
+                        . "Số tiền: " . number_format((float) $deposit->amount, 0, ',', '.') . " VND\n"
+                        . "Trạng thái: " . $statusText;
+
+                    if ($noteText !== '') {
+                        $content .= "\nGhi chú: " . $noteText;
+                    }
+
+                    $mailPayload = [
+                        'to' => $email,
+                        'name' => $user->yourname ?: ($user->name ?: 'Bạn'),
+                        'subject' => $subject,
+                        'content' => $content,
+                    ];
+                }
+            });
+        } catch (\Throwable $e) {
+            Log::error('Deposit updateStatus failed', [
+                'deposit_id' => $deposit->id,
                 'action' => $request->action,
-                'note' => $request->note,
+                'error' => $e->getMessage(),
             ]);
 
-            $user = $deposit->user()->select('id', 'yourname', 'name', 'email')->first();
-            if ($user && !empty($user->email)) {
-                $statusText = $request->action === 'approve' ? 'ĐƯỢC DUYỆT' : 'BỊ TỪ CHỐI';
-                $subject = $request->action === 'approve'
-                    ? 'Thông báo: Lệnh nạp tiền đã được duyệt'
-                    : 'Thông báo: Lệnh nạp tiền đã bị từ chối';
-
-                $noteText = trim((string) $request->note);
-                $content = "Lệnh nạp tiền của bạn vừa được cập nhật.\n"
-                    . "Mã lệnh: " . ($deposit->transaction_code ?: ('#' . $deposit->id)) . "\n"
-                    . "Số tiền: " . number_format((float) $deposit->amount, 0, ',', '.') . " VND\n"
-                    . "Trạng thái: " . $statusText;
-
-                if ($noteText !== '') {
-                    $content .= "\nGhi chú: " . $noteText;
-                }
-
-                $mailPayload = [
-                    'to' => $user->email,
-                    'name' => $user->yourname ?: ($user->name ?: 'Bạn'),
-                    'subject' => $subject,
-                    'content' => $content,
-                ];
-            }
-        });
+            return back()->with('error', 'Không thể cập nhật trạng thái lệnh nạp tiền.');
+        }
 
         if ($mailPayload) {
-            Mail::to($mailPayload['to'])->send(
-                new BulkPersonalMail(
-                    $mailPayload['name'],
-                    $mailPayload['content'],
-                    $mailPayload['subject']
-                )
-            );
+            try {
+                Mail::to($mailPayload['to'])->send(
+                    new BulkPersonalMail(
+                        $mailPayload['name'],
+                        $mailPayload['content'],
+                        $mailPayload['subject']
+                    )
+                );
+            } catch (\Throwable $e) {
+                Log::error('Deposit status mail failed', [
+                    'deposit_id' => $deposit->id,
+                    'email' => $mailPayload['to'],
+                    'error' => $e->getMessage(),
+                ]);
+
+                return back()->with('warning', 'Đã cập nhật trạng thái nhưng gửi email thông báo thất bại.');
+            }
         }
 
         return back()->with('success', 'Cập nhật trạng thái thành công');
@@ -275,10 +297,7 @@ class DepositController extends Controller
             return back()->withErrors($validator);
         }
 
-        $file = $request->file('proof_image');
-        $filename = ($deposit->code ?? 'deposit') . '_' . time() . '.' . $file->getClientOriginalExtension();
-
-        $path = $file->storeAs('deposits', $filename, 'public');
+        $path = $this->storeProofImage($request->file('proof_image'), $deposit);
 
         $deposit->update([
             'proof_image' => $path,
@@ -308,10 +327,7 @@ class DepositController extends Controller
             return back()->withErrors($validator);
         }
 
-        $file = $request->file('proof_image');
-        $filename = ($deposit->code ?? 'deposit') . '_' . time() . '.' . $file->getClientOriginalExtension();
-
-        $path = $file->storeAs('deposits', $filename, 'public');
+        $path = $this->storeProofImage($request->file('proof_image'), $deposit);
 
         $deposit->update([
             'proof_image' => $path,
@@ -345,5 +361,17 @@ class DepositController extends Controller
             'updated' => $updated,
             'status_now' => Deposit::find($deposit->id)->status,
         ]);
+    }
+
+    /**
+     * Store uploaded proof image on the public disk with a collision-safe filename.
+     */
+    private function storeProofImage($file, Deposit $deposit): string
+    {
+        $ext = $file->extension() ?: $file->getClientOriginalExtension() ?: 'jpg';
+        $prefix = $deposit->transaction_code ?: ('deposit_' . $deposit->id);
+        $filename = $prefix . '_' . time() . '_' . Str::lower(Str::random(4)) . '.' . $ext;
+
+        return $file->storeAs('deposits', $filename, 'public');
     }
 }
