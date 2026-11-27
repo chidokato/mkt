@@ -57,7 +57,7 @@ class SsoClientController extends Controller
         Auth::login($user, true);
         $request->session()->regenerate();
 
-        if ((int) ($user->permission ?? 6) < 6) {
+        if (\Illuminate\Support\Facades\Route::has('admin') && (int) ($user->permission ?? 6) < 6) {
             return redirect()->route('admin');
         }
         return redirect()->route('account.dashboard.main');

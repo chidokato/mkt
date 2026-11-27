@@ -24,7 +24,7 @@ use App\Http\Controllers\Account\UserManagementController;
 // Auth routes
 Route::get('dangnhap', function (\Illuminate\Http\Request $request) {
     if (auth()->check()) {
-        return (int) (auth()->user()->permission ?? 6) < 6
+        return (\Illuminate\Support\Facades\Route::has('admin') && (int) (auth()->user()->permission ?? 6) < 6)
             ? redirect()->route('admin')
             : redirect()->route('account.dashboard.main');
     }
