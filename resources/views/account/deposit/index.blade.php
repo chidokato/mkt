@@ -430,9 +430,13 @@ $(function () {
     $img.attr('src', src);
 
     const modalEl = document.getElementById('proofModal');
-    if (window.bootstrap && bootstrap.Modal) {
-      bootstrap.Modal.getOrCreateInstance(modalEl).show();
-    } else {
+    if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+      if (typeof bootstrap.Modal.getOrCreateInstance === 'function') {
+        bootstrap.Modal.getOrCreateInstance(modalEl).show();
+      } else {
+        new bootstrap.Modal(modalEl).show();
+      }
+    } else if (typeof $ !== 'undefined' && typeof $.fn.modal === 'function') {
       $('#proofModal').modal('show');
     }
   });
