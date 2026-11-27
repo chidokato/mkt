@@ -1,0 +1,229 @@
+@font-face {
+  font-family: 'UTM Avo';
+  src: url('../fonts/utmavo/UTMAvo.eot');
+  src: url('../fonts/utmavo/UTMAvo.eot?#iefix') format('embedded-opentype'),
+      url('../fonts/utmavo/UTMAvo.woff2') format('woff2'),
+      url('../fonts/utmavo/UTMAvo.woff') format('woff'),
+      url('../fonts/utmavo/UTMAvo.ttf') format('truetype'),
+      url('../fonts/utmavo/UTMAvo.svg#../fonts/utmavo/UTMAvo') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'UTM Avo';
+  src: url('../fonts/utmavo/UTMAvo-BoldItalic.eot');
+  src: url('../fonts/utmavo/UTMAvo-BoldItalic.eot?#iefix') format('embedded-opentype'),
+      url('../fonts/utmavo/UTMAvo-BoldItalic.woff2') format('woff2'),
+      url('../fonts/utmavo/UTMAvo-BoldItalic.woff') format('woff'),
+      url('../fonts/utmavo/UTMAvo-BoldItalic.ttf') format('truetype'),
+      url('../fonts/utmavo/UTMAvo-BoldItalic.svg#../fonts/utmavo/UTMAvo-BoldItalic') format('svg');
+  font-weight: bold;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'UTM Avo';
+  src: url('../fonts/utmavo/UTMAvo-Italic.eot');
+  src: url('../fonts/utmavo/UTMAvo-Italic.eot?#iefix') format('embedded-opentype'),
+      url('../fonts/utmavo/UTMAvo-Italic.woff2') format('woff2'),
+      url('../fonts/utmavo/UTMAvo-Italic.woff') format('woff'),
+      url('../fonts/utmavo/UTMAvo-Italic.ttf') format('truetype'),
+      url('../fonts/utmavo/UTMAvo-Italic.svg#../fonts/utmavo/UTMAvo-Italic') format('svg');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'UTM Avo';
+  src: url('../fonts/utmavo/UTMAvoBold.eot');
+  src: url('../fonts/utmavo/UTMAvoBold.eot?#iefix') format('embedded-opentype'),
+      url('../fonts/utmavo/UTMAvoBold.woff2') format('woff2'),
+      url('../fonts/utmavo/UTMAvoBold.woff') format('woff'),
+      url('../fonts/utmavo/UTMAvoBold.ttf') format('truetype'),
+      url('../fonts/utmavo/UTMAvoBold.svg#../fonts/utmavo/UTMAvoBold') format('svg');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'icomoon';
+  src:  url('../fonts/iconmoon/icomoon.eot?71ro2h');
+  src:  url('../fonts/iconmoon/icomoon.eot?71ro2h#iefix') format('embedded-opentype'),
+    url('../fonts/iconmoon/icomoon.ttf?71ro2h') format('truetype'),
+    url('../fonts/iconmoon/icomoon.woff?71ro2h') format('woff'),
+    url('../fonts/iconmoon/icomoon.svg?71ro2h#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon-"], [class*=" icon-"], .checked::after {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  font-style: normal;
+  speak: never;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-thumbsup:before {
+  content: "\e91f";
+}
+.icon-check-circle:before {
+  content: "\e91e";
+}
+.icon-next-thin:before {
+  content: "\e92b";
+}
+.icon-prev-thin:before {
+  content: "\e92c";
+}
+.icon-home-acreage:before {
+  content: "\e92a";
+}
+.icon-bedroom-2:before {
+  content: "\e920";
+}
+.icon-brochure:before {
+  content: "\e921";
+}
+.icon-direction:before {
+  content: "\e922";
+}
+.icon-home-measure:before {
+  content: "\e923";
+}
+.icon-home-status:before {
+  content: "\e924";
+}
+.icon-paper:before {
+  content: "\e925";
+}
+.icon-stretch:before {
+  content: "\e926";
+}
+.icon-deagree:before {
+  content: "\e927";
+}
+.icon-acreage-2:before {
+  content: "\e928";
+}
+.icon-bathroom-2:before {
+  content: "\e929";
+}
+.icon-thumbsup:before {
+  content: "\e91f";
+}
+.icon-grid:before {
+  content: "\e91c";
+}
+.icon-menu:before {
+  content: "\e91d";
+}
+.icon-heart-filled:before {
+  content: "\e918";
+}
+.icon-bathroom:before {
+  content: "\e919";
+}
+.icon-acreage:before {
+  content: "\e91a";
+}
+.icon-bed:before {
+  content: "\e91b";
+}
+.icon-check:before, .checked::after {
+  content: "\e917";
+}
+.icon-experience:before {
+  content: "\e916";
+}
+.icon-chat:before {
+  content: "\e915";
+}
+.icon-back:before, .slbArrow.prev:before {
+  content: "\e912";
+}
+.icon-next:before, .slbArrow.next:before {
+  content: "\e913";
+}
+.icon-website:before {
+  content: "\e914";
+}
+.icon-building-filled:before {
+  content: "\e901";
+}
+.icon-bell:before {
+  content: "\e900";
+}
+.icon-call:before {
+  content: "\e902";
+}
+.icon-down:before {
+  content: "\e903";
+}
+.icon-facebook:before {
+  content: "\e904";
+}
+.icon-home:before {
+  content: "\e905";
+}
+.icon-location:before {
+  content: "\e906";
+}
+.icon-mail:before {
+  content: "\e907";
+}
+.icon-mail-filled:before {
+  content: "\e908";
+}
+.icon-new:before {
+  content: "\e909";
+}
+.icon-phone:before {
+  content: "\e90a";
+}
+.icon-phone-filled:before {
+  content: "\e90b";
+}
+.icon-search:before {
+  content: "\e90c";
+}
+.icon-send:before {
+  content: "\e90d";
+}
+.icon-time:before {
+  content: "\e90e";
+}
+.icon-user:before {
+  content: "\e90f";
+}
+.icon-youtube:before {
+  content: "\e910";
+}
+.icon-zalo:before {
+  content: "\e911";
+}
+.icon-star-empty:before {
+  content: "\e9d7";
+}
+.icon-star-half:before {
+  content: "\e9d8";
+}
+.icon-star-fill:before {
+  content: "\e9d9";
+}
+.icon-check-circle:before {
+  content: "\e91e";
+}

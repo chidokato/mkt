@@ -1,0 +1,18 @@
+.contact_area{ padding-top:70px; padding-bottom:70px }
+.contact_area h1{ font-size:2rem; text-align:center; font-weight:bold; color:var(--main-color); margin-bottom:30px }
+.review-map li button{ border:1px solid #fff; padding:10px 30px; margin:5px; border-radius:3px; background:none; font-weight:bold; color:var(--main-color);  }
+.review-map li button:hover, .review-map li button.active{ border-color:var(--main-color); background-color:var(--main-color); color:#fff }
+.review-map .nav{ justify-content: center; }
+
+.main-info{ background:#F8F8F8; border-radius:10px; }
+.main-info .info{ padding:20px }
+.main-info h3{ font-weight:bold; font-size:1.2rem; margin-bottom:20px }
+.main-info ul{ display:flex; flex-direction: column; }
+.main-info ul li{ font-family:arial; margin-bottom:15px }
+.main-info ul li i{ color:var(--main-color); }
+.maps iframe{
+	box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+    border: 8px solid #dedede9e !important;
+    border-radius: 20px;
+}
+.tab-content{ margin-top:20px }

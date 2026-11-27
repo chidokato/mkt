@@ -1,0 +1,132 @@
+/*:root {
+	--main-color:#9d0917;
+	--sub-color:#b1934d;
+	--light-color:#fff;
+
+	--body-fontface:'UTM Avo', sans-serif;
+	--title-fontface:'UTM Avo';
+	--subtitle-fontface:'UTM Avo';
+}*/
+
+.bg{ background:#e6e6e6 }
+
+.section3, .section5{ padding:50px 0px }
+#gioithieu, #tamnhin, #muctieu, #dichvu, #lanhdao{ padding-top: 100px; margin-top: -100px; transition: scroll 1s ease; }
+
+.section1{ position:relative; }
+.section1 .img img{ width:100%; height:80vh; object-fit:cover; }
+.section1 .title{ position:absolute; bottom:0; width:100% ; background-image: linear-gradient(180deg, #fff0, #000); padding-top:20px }
+.section1 .title h1{ text-align:center; font-weight:bold; font-size:2rem; color:#fff }
+
+.section2{ background:var(--main-color); position:sticky; top:59px; z-index:99999; }
+.section2 .menu{}
+.section2 .menu ul{ display:flex; justify-content:center; }
+.section2 .menu ul li{ padding:0px }
+.section2 .menu ul li a{ color:#fff; padding:8px 13px; border-radius:3px; margin:3px 10px; text-transform:uppercase; font-size:.9rem  }
+.section2 .menu ul li a.active, .section2 .menu ul li a:hover{ background:#57050c; }
+
+.section3{ padding-bottom:100px }
+.section3 .img img{ width:100% }
+.section3 .content{ text-align:justify;  }
+
+.section4{ background: url(../images/gioithieu/quymo-01.png); padding:0px 0px 30px; background-size:cover; background-color: #e6e6e6; }
+.section4 h2{ text-align:center; font-size:1.8rem; color:var(--main-color); font-weight:bold; margin-bottom:30px; text-transform:uppercase; margin-top: -30px; }
+.section4 .swiper-wrapper .swiper-slide img{ width:100% }
+
+.section5 .img img{ width:100% }
+.section5 .content{ background:#9a804c; margin-left: -175px; border-radius:3px; color:#fff; padding:30px 50px; margin-right: 100px; }
+.section5 .content .title{ display:flex; align-items: flex-end; margin-bottom:20px }
+.section5 .content .title img{ width:90px; margin-right:20px }
+.section5 .content .title h3{ margin-bottom:0px }
+.section5 .col-md-5{ display:flex; align-items: center; }
+
+.section6{}
+.section6 .img{ text-align:right; }
+.section6 .img img{ width:100% }
+.section6 .iteam{ position:relative; }
+.section6 .iteam .text{ position:absolute; top:35px; left:70px; width: 60%; }
+.section6 .iteam .icon{ width:70px; margin-bottom:20px }
+
+.section7{ background:var(--main-color); padding:50px 0px; color:#fff; text-align:center; position:relative; }
+.section7::before {
+/*    content: '';*/
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 16%;
+    height: 100%;
+    background: url('../images/gioithieu/v_muctieu.png') no-repeat center center;
+    background-size: contain;
+}
+.section7 .img img{ width:90px }
+.section7 h2{ font-size:1.2rem; font-weight:bold; margin-top:20px; margin-bottom:20px }
+
+.section8{
+	background: url('../images/gioithieu/bg_dichvu.png') no-repeat center center;
+	background-size: cover;
+	width: 100%;
+	text-align: center; padding: 50px 0px 0px 0px;
+}
+.section8 h2{ color:#870819; font-size:1.2rem; font-weight:bold; }
+.section8 h3{ font-size:1.2rem; font-weight:bold; margin-bottom:30px }
+.section8 .mySwiper1 .swiper-slide{
+	background-size: cover;
+	height: 380px;
+	text-align: center; color: #fff;
+	display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 0px 20px;
+}
+.section8 .mySwiper1 .swiper-slide h4{ font-size:1.2rem; font-weight:bold; }
+.section8 .mySwiper1 .swiper-slide p{ height:90px }
+.iteam1{ background: url('../images/gioithieu/dichvu_1.png') no-repeat center center; }
+.iteam1:hover{ background: url('../images/gioithieu/dichvu_1-1.png') no-repeat center center; }
+.iteam2{ background: url('../images/gioithieu/dichvu_2.png') no-repeat center center; }
+.iteam2:hover{ background: url('../images/gioithieu/dichvu_2-2.png') no-repeat center center; }
+.iteam3{ background: url('../images/gioithieu/dichvu_3.png') no-repeat center center; }
+.iteam3:hover{ background: url('../images/gioithieu/dichvu_3-3.png') no-repeat center center; }
+.iteam4{ background: url('../images/gioithieu/dichvu_4.png') no-repeat center center; }
+.iteam4:hover{ background: url('../images/gioithieu/dichvu_4-4.png') no-repeat center center; }
+.iteam5{ background: url('../images/gioithieu/dichvu_5.png') no-repeat center center; }
+.iteam5:hover{ background: url('../images/gioithieu/dichvu_5-5.png') no-repeat center center; }
+
+.section9{ background:var(--main-color); padding:40px 0px; color:#fff; padding-bottom:30px }
+.section9 H2{ font-size:1.4rem; color:#fff; text-align:center; font-weight:bold; margin-bottom:30px }
+.timeline{ padding-left:150px }
+.timeline .timeline-entry p{ margin-bottom:0px }
+.timeline .timeline-entry{ border-left:1px #fff dashed; padding-left:20px; position:relative; }
+.timeline .timeline-entry:last-child{ border:none }
+.timeline .timeline-entry:after{ content:''; position:absolute; width:20px; height:20px; background:#fff; border-radius:100%; top:0; left:-11px; border: solid 5px #915858a8; }
+.timeline .timeline-entry .timeline-time{ position:absolute; top:0; left:-110px; text-align: right; width: 90px; }
+.timeline .timeline-entry .timeline-content{ padding-bottom:100px }
+.section9 .img img{ height: 300px; }
+.section9 .info{ display:flex;  flex-direction: column; align-items: center;}
+.section9 .name{ font-size:1.4rem; font-weight:bold; color:var(--sub-color); margin-bottom:15px }
+.section9 .function{ font-size:.8rem; color:#fff; text-align:center; }
+.haianh .timeline-content{ padding-bottom:70px !important }
+.haianh{ margin-top:50px }
+
+
+
+@media (max-width: 860px) {
+	
+}
+
+@media (max-width: 414px) {
+	.section1 .img img{ height:30vh }
+	.section1 .title h1{ font-size:1.5rem }
+	.section2{ display:none; }
+	.section3 .img img{ margin-bottom:1rem }
+	.section4 h2{ font-size:1.2rem }
+	.section5 .content{ margin:12px; padding:1.5rem; margin-top:-65px }
+	.section6 .img img{ height:500px; object-fit:cover; }
+	.section6 .container{ padding-left:0px; padding-right:0px }
+	.section6 .iteam .text{ width:100%; left:0; padding:0 2rem }
+	.section8 .mySwiper1 .swiper-slide{ height:330px }
+	.timeline .timeline-entry .timeline-content{ padding-bottom:1rem !important }
+	.timeline{ padding-left:130px }
+	.haianh .info{ margin-bottom:2rem }
+	.hangle{ flex-direction: column-reverse; margin-bottom:4rem }
+}
+
